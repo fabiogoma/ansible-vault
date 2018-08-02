@@ -1,0 +1,30 @@
+---
+- name: Super secret ansible-vault demo
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install basic packages
+      yum:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - git
+        - python
+
+    - name: Create a new group for a new user
+      group:
+        name: demo
+        state: present
+
+    - name: Create a new user for this demo
+      user:
+        name: demo
+        state: present
+        group: demo
+
+    - name: Checkout this demo inside a VM
+      git:
+        repo: https://github.com/fabiogoma/ansible-vault.git
+        dest: /home/demo/ansible-vault
+      remote_user: demo
