@@ -35,20 +35,16 @@
   tasks:
     - name: Checkout this demo inside a VM
       git:
-        repo: https://github.com/fabiogoma/ansible-vault.git
-        dest: /home/demo/ansible-vault
+        repo: https://github.com/fabiogoma/ansible-vault-samples.git
+        dest: /home/demo/samples/
 
-    - name: Remove unnecessary files
+    - name: Ensure there are no previous keys
       file:
         path: "{{ item }}"
         state: absent
       with_items:
         - /home/demo/.ssh/id_rsa
         - /home/demo/.ssh/id_rsa.pub
-        - /home/demo/ansible-vault/README.md
-        - /home/demo/ansible-vault/Vagrantfile
-        - /home/demo/ansible-vault/provisioning/main.yml
-        - /home/demo/ansible-vault/provisioning/
 
     - name: Create hidden ssh directory
       file:
