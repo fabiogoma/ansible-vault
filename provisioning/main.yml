@@ -1,5 +1,5 @@
 ---
-- name: Super secret ansible-vault demo
+- name: Install basic components and create a new user
   hosts: all
   become: true
   gather_facts: false
@@ -26,11 +26,17 @@
         state: present
         group: demo
 
+- name: Super secret ansible-vault demo
+  hosts: all
+  become: true
+  become_user: demo
+  gather_facts: false
+
+  tasks:
     - name: Checkout this demo inside a VM
       git:
         repo: https://github.com/fabiogoma/ansible-vault.git
         dest: /home/demo/ansible-vault
-      remote_user: demo
 
     - name: Remove unnecessary files
       file:
@@ -48,19 +54,7 @@
       file:
         path: /home/demo/.ssh/
         state: directory
-      remote_user: demo
 
     - name: Generate ssh key pair
       shell: ssh-keygen -t rsa -f '/home/demo/.ssh/id_rsa' -N ''
       changed_when: false
-      remote_user: demo
-
-    - name: Ensure owner permissions on the keys
-      file:
-        path: "{{ item }}"
-        owner: demo
-        group: demo
-        mode: 0400
-      with_items:
-        - /home/demo/.ssh/id_rsa
-        - /home/demo/.ssh/id_rsa.pub
