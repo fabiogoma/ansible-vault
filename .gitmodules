@@ -1,0 +1,3 @@
+[submodule "ansible-vault-samples"]
+	path = ansible-vault-samples
+	url = https://github.com/fabiogoma/ansible-vault-samples
